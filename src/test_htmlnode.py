@@ -70,6 +70,5 @@ class TestParentNode(unittest.TestCase):
         self.assertEqual(node.to_html(), "<div><p><span>nested</span></p></div>")
 
 
-
 if __name__ == "__main__":
     unittest.main()

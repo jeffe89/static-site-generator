@@ -7,7 +7,7 @@ def text_node_to_html_node(text_node):
         raise ValueError("Expected TextNode")
     
     #Handle TextType.NORMAL
-    if text_node.text_type == TextType.NORMAL:
+    if text_node.text_type == TextType.TEXT:
         return LeafNode(None, text_node.text)
     
     #Handle TextType.BOLD

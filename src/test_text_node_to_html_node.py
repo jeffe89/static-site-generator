@@ -4,13 +4,9 @@ from text_node_to_html_node import text_node_to_html_node
 from textnode import TextNode, TextType
 from htmlnode import LeafNode, ParentNode
 
-# Add this debug print
-print("Available TextTypes:", list(TextType))
-
-
 class Test_function(unittest.TestCase):
     def test_text_node_to_html_node_normal(self):
-        node = TextNode("Hello, world!", TextType.NORMAL)
+        node = TextNode("Hello, world!", TextType.TEXT)
         html_node = text_node_to_html_node(node)
         assert html_node.tag is None
         assert html_node.value == "Hello, world!"
