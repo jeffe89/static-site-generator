@@ -4,6 +4,7 @@ from markdown_blocks import (
     markdown_to_blocks,
     block_to_block_type,
     BlockType,
+    extract_title
 )
 
 
@@ -148,6 +149,42 @@ this is paragraph text
             "<div><blockquote>This is a blockquote block</blockquote><p>this is paragraph text</p></div>",
         )
 
+    def test_extract_title(self):
+        # Test basic title
+        assert extract_title("# Simple Title") == "Simple Title"
+        
+        # Test title with extra spaces
+        assert extract_title("#    Spacey    Title    ") == "Spacey    Title"
+        
+        # Test title with content after it
+        assert extract_title("# Title\nOther content\nMore content") == "Title"
+
+        # Test with Special characters
+        assert extract_title("# Title! with@ special# characters%") == "Title! with@ special# characters%"
+        
+        #Test with only # and no text
+        assert extract_title("# ") == ""
+
+        # Test with "##" (h2)
+        try:
+            extract_title("## Title with double ## in front")
+            assert False, "Should have raised an exception - ## is not a valid h1"
+        except Exception as e:
+            assert str(e) == "No title found"
+
+        # Test with no space after #
+        try:
+            extract_title("#Title with double ## in front")
+            assert False, "Should have raised an exception - missing space after #"
+        except Exception as e:
+            assert str(e) == "No title found"    
+
+        # Test that exception is raised when no title exists
+        try:
+            extract_title("No title here")
+            assert False, "Should have raised an exception"
+        except Exception as e:
+            assert str(e) == "No title found"
 
 if __name__ == "__main__":
     unittest.main()
