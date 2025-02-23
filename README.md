@@ -73,7 +73,7 @@ To generate and preview the static site:
 ./main.sh
 ```
 
-``** Workflow:**
+** Workflow:**
 
 1. Runs `src/main.py` to process Markdown files and generate HTML files into the `public/` directory.
 2. Launches a local HTTP server at `http://localhost:8888` for previewing the generated site.
