@@ -104,7 +104,9 @@ To generate and preview the static site:
   - **`src/test_markdown_blocks.py`**: Ensures block-level Markdown elements are converted accurately.
   - **`src/test_textnode.py`**: Confirms proper construction and manipulation of text nodes.
   
-These modules work together to read content, process Markdown, and generate HTML files for static web pages.## Unit Tests
+These modules work together to read content, process Markdown, and generate HTML files for static web pages.\
+
+## Unit Tests
 
 Run tests using:
 
