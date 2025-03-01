@@ -4,7 +4,7 @@
 
 The **Static Site Generator** converts Markdown content into static HTML pages using a customizable template system. This project enables users to create static websites easily, ideal for blogs, documentation, and personal portfolios.
 
-Project deplaoyed via GitHub-Pages: <a href="[http://example.com/](https://jeffe89.github.io/static-site-generator/)" target="_blank">Static-Site-Generator!</a>
+Project deployed via GitHub-Pages: [Static-Site-Generator! (opens in new tab)](https://jeffe89.github.io/static-site-generator/)
 
 ## Project Structure
 
