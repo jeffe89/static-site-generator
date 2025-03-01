@@ -4,43 +4,64 @@
 
 The **Static Site Generator** converts Markdown content into static HTML pages using a customizable template system. This project enables users to create static websites easily, ideal for blogs, documentation, and personal portfolios.
 
-Project deployed via GitHub-Pages: [Static-Site-Generator!](https://jeffe89.github.io/static-site-generator/) (ctrl+click to open in new tab)
+**This project is hosted via GitHub Pages:** [Static-Site-Generator!](https://jeffe89.github.io/static-site-generator/) (ctrl+click to open in new tab)
 
 ## Project Structure
 
 ```
 static-site-generator/
-├── .git/                      # Git repository data
-├── .gitignore                 # Specifies files ignored by Git
-├── README.md                  # Project documentation (this file)
+├── template.html              # HTML template for page generation
+├── build.sh                   # Script to generate static files
 ├── main.sh                    # Script to run the generator and serve the site
 ├── test.sh                    # Script to execute unit tests
-├── template.html              # HTML template for page generation
+├── README.md                  # Project documentation (this file)
+├── LICENSE.md                 # License file
+├── .gitignore                 # Specifies files ignored by Git
+├── docs/                      # Output directory for generated static files
+│   ├── index.css              # Copied stylesheet
+│   ├── index.html             # Generated homepage
+│   ├── blog/                  # Blog pages
+│   │   ├── majesty/
+│   │   │   ├── index.html
+│   │   ├── glorfindel/
+│   │   │   ├── index.html
+│   │   ├── tom/
+│   │   │   ├── index.html
+│   ├── images/                # Copied static images
+│   │   ├── tolkien.png
+│   │   ├── tom.png
+│   │   ├── glorfindel.png
+│   │   ├── rivendell.png
+│   ├── contact/               # Contact page
+│   │   ├── index.html
 ├── static/                    # Static assets (CSS, images)
 │   ├── index.css              # Default stylesheet
-│   └── images/                # Image assets
-│       └── rivendell.png      # Example image
-├── public/                    # Output directory for generated static files
-│   ├── index.html             # Generated homepage
-│   ├── majesty/               # Example subpage directory
-│   │   └── index.html         # Generated subpage
-│   ├── images/                # Copied static images
-│   │   └── rivendell.png      # Copied image for site use
-│   └── index.css              # Copied stylesheet
+│   ├── images/
+│   │   ├── tolkien.png
+│   │   ├── tom.png
+│   │   ├── glorfindel.png
+│   │   ├── rivendell.png
 ├── content/                   # Markdown source content
 │   ├── index.md               # Main page content
-│   └── majesty/               # Subpage content directory
-│       └── index.md           # Subpage content
-└── src/                       # Source code for the generator
-    ├── main.py                # Main script to generate site pages
-    ├── htmlnode.py            # HTML element generation logic
-    ├── inline_markdown.py     # Inline Markdown parsing
-    ├── markdown_blocks.py     # Block-level Markdown processing
-    ├── textnode.py            # Text node data structure
-    ├── test_htmlnode.py       # Tests for htmlnode.py
-    ├── test_inline_markdown.py# Tests for inline_markdown.py
-    ├── test_markdown_blocks.py# Tests for markdown_blocks.py
-    └── test_textnode.py       # Tests for textnode.py
+│   ├── blog/                  # Blog content
+│   │   ├── majesty/
+│   │   │   ├── index.md
+│   │   ├── glorfindel/
+│   │   │   ├── index.md
+│   │   ├── tom/
+│   │   │   ├── index.md
+│   ├── contact/               # Contact page content
+│   │   ├── index.md
+├── src/                       # Source code for the generator
+│   ├── main.py                # Main script to generate site pages
+│   ├── htmlnode.py            # HTML element generation logic
+│   ├── inline_markdown.py     # Inline Markdown parsing
+│   ├── markdown_blocks.py     # Block-level Markdown processing
+│   ├── textnode.py            # Text node data structure
+│   ├── test_htmlnode.py       # Tests for htmlnode.py
+│   ├── test_inline_markdown.py# Tests for inline_markdown.py
+│   ├── test_markdown_blocks.py# Tests for markdown_blocks.py
+│   ├── test_textnode.py       # Tests for textnode.py
 ```
 
 ## Installation
@@ -63,7 +84,7 @@ static-site-generator/
 2. **(Optional) Set up a virtual environment:**
    ```bash
    python3 -m venv venv
-   source venv/bin/activate  # On Windows: venv\\Scripts\\activate
+   source venv/bin/activate  # On Windows: venv\Scripts\activate
    ```
 3. **Install dependencies:** No external dependencies beyond Python's standard library are required.
 
@@ -77,7 +98,7 @@ To generate and preview the static site:
 
 **Workflow:**
 
-1. Runs `src/main.py` to process Markdown files and generate HTML files into the `public/` directory.
+1. Runs `src/main.py` to process Markdown files and generate HTML files into the `docs/` directory.
 2. Launches a local HTTP server at `http://localhost:8888` for previewing the generated site.
 
 ## Core Implementation Details
@@ -86,7 +107,7 @@ To generate and preview the static site:
   - Reads Markdown files from the `content/` directory.
   - Uses helper modules to convert Markdown into HTML.
   - Integrates the generated HTML into the `template.html` file.
-  - Saves the final pages into the `public/` directory.
+  - Saves the final pages into the `docs/` directory.
 - **`src/htmlnode.py`**: Contains the `HTMLNode` class, responsible for creating and rendering HTML elements with:
   - Tag names (e.g., `div`, `p`, `h1`)
   - Attributes (e.g., classes, ids)
@@ -106,7 +127,7 @@ To generate and preview the static site:
   - **`src/test_markdown_blocks.py`**: Ensures block-level Markdown elements are converted accurately.
   - **`src/test_textnode.py`**: Confirms proper construction and manipulation of text nodes.
   
-These modules work together to read content, process Markdown, and generate HTML files for static web pages.\
+These modules work together to read content, process Markdown, and generate HTML files for static web pages.
 
 ## Unit Tests
 
@@ -118,11 +139,7 @@ Run tests using:
 
 ## Deployment
 
-The generated static files in `public/` can be hosted on platforms like:
-
-- **GitHub Pages**: Push to a `gh-pages` branch.
-- **Netlify**: Drag and drop the `public/` folder in the dashboard.
-- **Vercel**: Deploy directly through the Vercel CLI.
+The generated static files in `docs/` are automatically hosted via **GitHub Pages**.
 
 ## Contribution Guidelines
 
@@ -133,11 +150,12 @@ The generated static files in `public/` can be hosted on platforms like:
 
 ## License
 
-This project is under the MIT License. See `LICENSE` for details.
+This project is under the MIT License. See `LICENSE.md` for details.
 
 ## Author
 Geoffrey Giordano
 
 ---
 
-This README was generated to provide clarity on the project's structure, usage, and best practices.
+This README was updated to reflect the exact directory structure based on the provided ZIP file, including the `majesty` subdirectory in both `content` and `docs`.
+
