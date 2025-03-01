@@ -1,5 +1,6 @@
 import os
 import shutil
+import sys
 
 from textnode import *
 from htmlnode import *
@@ -7,25 +8,30 @@ from markdown_blocks import *
 
 def main():
 
-    #Check path for public directory
+    #handle basepath for GitHub Pages
+    if len(sys.argv) > 1:
+        basepath = sys.argv[1]
+    else:
+        basepath = "/" #default for development
 
-    public_dir = "public"
+    #Check path for docs directory
+    public_dir = "docs"
     static_dir = "static"
     
     if os.path.exists(public_dir):
         #If found - remove directory
         shutil.rmtree(public_dir)
 
-    #Recreate a public directory
+    #Recreate a docs directory
     os.mkdir(public_dir)
 
-    #Copy contents of static directory to public
+    #Copy contents of static directory to docs
     copy_static_contents(static_dir, public_dir)
 
     #Generate the index page
     from_path = "content"
     template_path = "template.html"
-    generate_pages_recursive(from_path, template_path, public_dir)
+    generate_pages_recursive(from_path, template_path, public_dir, basepath)
 
 
 
@@ -44,7 +50,7 @@ def copy_static_contents(source, destination):
             destination_path = os.path.join(destination, file)
             shutil.copy(source_path, destination_path)
         
-        #If source path is to a sub directory, crete corresponding directory in public
+        #If source path is to a sub directory, crete corresponding directory in docs
         else:
             destination_path = os.path.join(destination, file)
             os.mkdir(destination_path)
@@ -52,7 +58,7 @@ def copy_static_contents(source, destination):
 
 
 
-def generate_page(from_path, template_path, dest_dir_path):
+def generate_page(from_path, template_path, dest_dir_path, basepath):
 
     # Get the filename from the path and change extension
     filename = os.path.basename(from_path)
@@ -83,6 +89,11 @@ def generate_page(from_path, template_path, dest_dir_path):
     template_content = template_content.replace("{{ Title }}", title)
     template_content = template_content.replace("{{ Content }}", html_content)
 
+    #Replace references and source with basepath
+    template_content = template_content.replace('href="/', f'href="{basepath}')
+    template_content = template_content.replace('src="/', f'src="{basepath}')
+
+
     #Make directory to write the final template_content to using dest_path
     os.makedirs(os.path.dirname(dest_path), exist_ok=True)
 
@@ -92,7 +103,7 @@ def generate_page(from_path, template_path, dest_dir_path):
 
 
 
-def generate_pages_recursive(dir_path_content, template_path, dest_dir_path):
+def generate_pages_recursive(dir_path_content, template_path, dest_dir_path, basepath):
     #Print details of generating page from path to dest path using template path
     print(f"Generating page from {dir_path_content} to {dest_dir_path} using {template_path}")
 
@@ -107,16 +118,16 @@ def generate_pages_recursive(dir_path_content, template_path, dest_dir_path):
 
         #Check if its a file 
         if os.path.isfile(full_path) and full_path.endswith(".md"):
-            generate_page(full_path, template_path, dest_dir_path)
+            generate_page(full_path, template_path, dest_dir_path, basepath)
         
         #Check if its a directory
         elif os.path.isdir(full_path):
-            #Create the sub directory path in public
+            #Create the sub directory path in docs
             dest_sub_path = os.path.join(dest_dir_path, entry)
             # Ensure directory exists
             os.makedirs(dest_sub_path, exist_ok=True)
             # Recursive call with new paths
-            generate_pages_recursive(full_path, template_path, dest_sub_path)
+            generate_pages_recursive(full_path, template_path, dest_sub_path, basepath)
     
         #If neither, skip it
         else:
